@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  rest:
+    container_name: go-mongodb-rest
+    build: .
+    environment:
+      - PORT=3000
+      - DATABASE=mongodb-rest
+      - MONGO_CONNECTION=mongodb://root:root@mongodb:27017
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+  mongodb:
+    image: 'mongo:5.0'
+    container_name: 'mongo'
+    environment:
+      - MONGO_INITDB_DATABASE=mongodb-rest
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
