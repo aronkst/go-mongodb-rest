@@ -1,8 +1,10 @@
 # Go MongoDB REST
 
-...
+This project is a REST client for MongoDB, where you can easily run all the features of a CRUD and some other features. It is possible to create documents within collections, edit, replace, delete, read, perform advanced queries, count how many documents are in a collection, with a query or not, and even a way to return data in pagination.
 
-To know more details, there is the Makefile file with the commands necessary for its execution and example of how to use, including curl commands.
+Its execution can be done via Docker Compose, where MongoDB is already configured and the execution of this project connected to it.
+
+To know more details, there is the Makefile file with the commands necessary for its execution and example of how to use, including `curl` commands.
 
 # How to use
 
