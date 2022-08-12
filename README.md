@@ -46,8 +46,10 @@ make test-list-find
 
 Example of how to get a document via `_id` from a collection:
 
+(replace **<_ID>** with the _id from document.)
+
 ```
-make test-show
+make test-show _id=<_ID>
 ```
 
 Example of inserting documents into a collection:
