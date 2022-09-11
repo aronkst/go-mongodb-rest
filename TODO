@@ -1,6 +1,3 @@
-README.md
-    o _id sempre e convertido para string em todos os casos de find
-
 export
 import
 clear
