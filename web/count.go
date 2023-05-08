@@ -6,26 +6,29 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (s *Server) Count(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s *Server) Count(writer http.ResponseWriter, request *http.Request, ps httprouter.Params) {
 	collectionName := getCollectionName(ps)
 
-	body, err := getBody(r)
+	body, err := getBody(request)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
 	data, err := s.MongoDB.Count(collectionName, body)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
 	output, err := createOutput(data)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
-	httpSuccess(w, output, http.StatusOK)
+	httpSuccess(writer, output, http.StatusOK)
 }

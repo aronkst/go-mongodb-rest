@@ -20,8 +20,14 @@ func (m *MongoDB) Replace(collectionName string, params map[string]string, body 
 		return nil, err
 	}
 
+	defer cursor.Close(context.TODO())
+
 	var dataReplace []bson.M
-	cursor.All(context.TODO(), &dataReplace)
+	err = cursor.All(context.TODO(), &dataReplace)
+
+	if err != nil {
+		return nil, err
+	}
 
 	for _, dR := range dataReplace {
 		_, err = collection.ReplaceOne(context.TODO(), bson.M{"_id": dR["_id"]}, document)
@@ -35,10 +41,12 @@ func (m *MongoDB) Replace(collectionName string, params map[string]string, body 
 		return nil, err
 	}
 
-	defer cursor.Close(context.TODO())
-
 	var data []bson.M
-	cursor.All(context.TODO(), &data)
+	err = cursor.All(context.TODO(), &data)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return data, nil
 }

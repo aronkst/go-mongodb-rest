@@ -20,9 +20,11 @@ func (m *MongoDB) Query(collectionName string, body []byte) ([]bson.M, error) {
 	if query.Sort != nil {
 		findOptions.SetSort(query.Sort)
 	}
+
 	if query.Skip != 0 {
 		findOptions.SetSkip(query.Skip)
 	}
+
 	if query.Limit != 0 {
 		findOptions.SetLimit(query.Limit)
 	}
@@ -35,7 +37,11 @@ func (m *MongoDB) Query(collectionName string, body []byte) ([]bson.M, error) {
 	defer cursor.Close(context.TODO())
 
 	var data []bson.M
-	cursor.All(context.TODO(), &data)
+	err = cursor.All(context.TODO(), &data)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return data, nil
 }

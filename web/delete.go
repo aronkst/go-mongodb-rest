@@ -6,15 +6,16 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (s *Server) Delete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s *Server) Delete(writer http.ResponseWriter, request *http.Request, ps httprouter.Params) {
 	collectionName := getCollectionName(ps)
-	params := getQueryParams(r)
+	params := getQueryParams(request)
 
 	err := s.MongoDB.Delete(collectionName, params)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
-	httpNoContent(w)
+	httpNoContent(writer)
 }

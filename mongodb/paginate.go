@@ -20,6 +20,7 @@ func (m *MongoDB) Paginate(collectionName string, body []byte) (DataPaginate, er
 
 	findOptions.SetSkip(skip)
 	findOptions.SetLimit(paginate.PerPage)
+
 	if paginate.Sort != nil {
 		findOptions.SetSort(paginate.Sort)
 	}
@@ -32,7 +33,11 @@ func (m *MongoDB) Paginate(collectionName string, body []byte) (DataPaginate, er
 	defer cursor.Close(context.TODO())
 
 	var data []bson.M
-	cursor.All(context.TODO(), &data)
+	err = cursor.All(context.TODO(), &data)
+
+	if err != nil {
+		return DataPaginate{}, err
+	}
 
 	count, err := collection.CountDocuments(context.TODO(), paginate.Find)
 	if err != nil {

@@ -6,21 +6,23 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (s *Server) Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s *Server) Show(writer http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 	collectionName := getCollectionName(ps)
-	_id := getID(ps)
+	id := getID(ps)
 
-	data, err := s.MongoDB.Show(collectionName, _id)
+	data, err := s.MongoDB.Show(collectionName, id)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
 	output, err := createOutput(data)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
-	httpSuccess(w, output, http.StatusOK)
+	httpSuccess(writer, output, http.StatusOK)
 }

@@ -18,7 +18,11 @@ func (m *MongoDB) List(collectionName string, params map[string]string) ([]bson.
 	defer cursor.Close(context.TODO())
 
 	var data []bson.M
-	cursor.All(context.TODO(), &data)
+	err = cursor.All(context.TODO(), &data)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return data, nil
 }

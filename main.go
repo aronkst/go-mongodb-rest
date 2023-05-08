@@ -17,10 +17,10 @@ import (
 
 func main() {
 	port := getEnv("PORT")
-	database_name := getEnv("DATABASE")
-	mongo_connection := getEnv("MONGO_CONNECTION")
+	databaseName := getEnv("DATABASE")
+	mongoConnection := getEnv("MONGO_CONNECTION")
 
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongo_connection))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongoConnection))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +30,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	database := client.Database(database_name)
+	database := client.Database(databaseName)
 	mongoDB := mongodb.New(database)
 
 	server := web.New(mongoDB)

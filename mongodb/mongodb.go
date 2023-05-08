@@ -54,6 +54,7 @@ func createFilter(params map[string]string) bson.M {
 
 func createQueryData(body []byte) (queryData, error) {
 	var query queryData
+
 	err := bson.UnmarshalExtJSON(body, true, &query)
 	if err != nil {
 		return queryData{}, err
@@ -62,15 +63,19 @@ func createQueryData(body []byte) (queryData, error) {
 	if query.Find == nil {
 		query.Find = bson.M{}
 	}
+
 	if query.Sort == nil {
 		query.Sort = bson.M{}
 	}
+
 	if query.Limit == 0 {
 		query.Limit = 10
 	}
+
 	if query.Page == 0 {
 		query.Page = 1
 	}
+
 	if query.PerPage == 0 {
 		query.PerPage = 10
 	}
@@ -78,18 +83,19 @@ func createQueryData(body []byte) (queryData, error) {
 	return query, nil
 }
 
-func createObjectID(_id string) (primitive.ObjectID, error) {
-	objectId, err := primitive.ObjectIDFromHex(_id)
+func createObjectID(id string) (primitive.ObjectID, error) {
+	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return [12]byte{}, err
 	}
 
-	return objectId, nil
+	return objectID, nil
 }
 
 func createDocument(body []byte) (interface{}, error) {
 	var doc interface{}
 	err := bson.UnmarshalExtJSON(body, true, &doc)
+
 	if err != nil {
 		return nil, err
 	}
@@ -115,5 +121,6 @@ func createPaginateSkip(paginate queryData) int64 {
 
 func createPaginateTotalPages(perPage int64, count int64) int64 {
 	div := float64(count) / float64(perPage)
+
 	return int64(math.Ceil(div))
 }

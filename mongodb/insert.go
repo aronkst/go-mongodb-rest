@@ -19,9 +19,9 @@ func (m *MongoDB) Insert(collectionName string, body []byte) (bson.M, error) {
 		return nil, err
 	}
 
-	_id := getIDResult(result)
+	id := getIDResult(result)
 
-	data, err := m.Show(collectionName, _id)
+	data, err := m.Show(collectionName, id)
 	if err != nil {
 		return nil, err
 	}

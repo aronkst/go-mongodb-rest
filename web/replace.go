@@ -6,27 +6,30 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (s *Server) Replace(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s *Server) Replace(writer http.ResponseWriter, request *http.Request, ps httprouter.Params) {
 	collectionName := getCollectionName(ps)
-	params := getQueryParams(r)
+	params := getQueryParams(request)
 
-	body, err := getBody(r)
+	body, err := getBody(request)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
 	data, err := s.MongoDB.Replace(collectionName, params, body)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
 	output, err := createOutput(data)
 	if err != nil {
-		httpError(w, err)
+		httpError(writer, err)
+
 		return
 	}
 
-	httpSuccess(w, output, http.StatusOK)
+	httpSuccess(writer, output, http.StatusOK)
 }
